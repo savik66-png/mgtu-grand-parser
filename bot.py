@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""БОТ ДЛЯ ЗАПУСКА ПАРСЕРА ИЗ TELEGRAM — ФИНАЛЬНАЯ ВЕРСИЯ"""
+"""БОТ ДЛЯ ЗАПУСКА ПАРСЕРА ИЗ TELEGRAM"""
 import os, sys, logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
