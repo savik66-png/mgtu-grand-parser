@@ -200,7 +200,6 @@ def run_parser():
     
     if not new_grants:
         log_message("ℹ️ Новых грантов не найдено", "INFO")
-        send_telegram_message("🔄 Новых грантов не найдено")
         return True
     
     # Отправляем
