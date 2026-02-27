@@ -1,68 +1,39 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-БОТ ДЛЯ ЗАПУСКА ПАРСЕРА ГРАНТОВ ИЗ TELEGRAM
-ФИНАЛЬНАЯ ВЕРСИЯ — запуск парсера по команде
-"""
-import os
-import sys
-import logging
+"""БОТ ДЛЯ ЗАПУСКА ПАРСЕРА ИЗ TELEGRAM"""
+import os, sys, logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-# Добавляем текущую папку в путь поиска модулей
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-# Импортируем функцию запуска из парсера
 from mgtu_parser import main as run_parser
 
-# Настройки из переменных окружения (BotHost)
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
 
-# Логирование
-logging.basicConfig(
-    format='%(asctime)s - %(message)s',
-    level=logging.INFO,
-    force=True
-)
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO, force=True)
 logger = logging.getLogger(__name__)
 
-# ==================== ОБРАБОТЧИКИ ====================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Команда /start — запуск парсера"""
-    user_id = update.effective_user.id
-    logger.info(f"/start от user_id={user_id}, ADMIN_ID={ADMIN_ID}")
-    
-    if user_id != ADMIN_ID:
+    uid = update.effective_user.id
+    logger.info(f"/start от {uid}, ADMIN_ID={ADMIN_ID}")
+    if uid != ADMIN_ID:
         await update.message.reply_text("❌ Доступ запрещен")
         return
-    
-    await update.message.reply_text("⏳ <b>Запуск парсера грантов...</b>", parse_mode='HTML')
-    
+    await update.message.reply_text("⏳ <b>Запуск...</b>", parse_mode='HTML')
     try:
-        # Запускаем парсер
         run_parser()
-        await update.message.reply_text("✅ <b>Готово!</b> Проверь чат.", parse_mode='HTML')
+        await update.message.reply_text("✅ <b>Готово!</b>", parse_mode='HTML')
     except Exception as e:
-        logger.error(f"Ошибка парсера: {e}")
-        await update.message.reply_text(f"❌ <b>Ошибка:</b> {str(e)[:200]}", parse_mode='HTML')
+        logger.error(f"Ошибка: {e}")
+        await update.message.reply_text(f"❌ Ошибка: {str(e)[:150]}", parse_mode='HTML')
 
-async def check(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Команда /check — алиас для /start"""
-    await start(update, context)
-
-# ==================== ЗАПУСК ====================
 def main():
-    logger.info("🚀 Запуск бота...")
-    logger.info(f"Token: {TELEGRAM_BOT_TOKEN[:10] if TELEGRAM_BOT_TOKEN else 'NONE'}...")
-    logger.info(f"ADMIN_ID: {ADMIN_ID}")
-    
-    app = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    logger.info(f"🚀 Бот запущен. Token: {TOKEN[:10] if TOKEN else 'NONE'}...")
+    app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("check", check))
-    
-    logger.info("✅ Обработчики готовы. Запуск polling...")
+    app.add_handler(CommandHandler("check", start))
+    logger.info("✅ Запуск polling...")
     app.run_polling(drop_pending_updates=True, allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
