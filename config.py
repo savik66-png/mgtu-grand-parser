@@ -61,3 +61,5 @@ MGTU_DIRECTIONS = [
 # ==================== ЛОГИРОВАНИЕ ====================
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")  # INFO, DEBUG, WARNING, ERROR
+# === ОТЛАДКА — УДАЛИТЬ ПОСЛЕ ПРОВЕРКИ ===
+print(f"🔍 DEBUG config.py: ADMIN_IDS = {ADMIN_IDS}, type={type(ADMIN_IDS)}")
