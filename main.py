@@ -224,7 +224,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "• От 5 млн руб./год\n"
             "• От 14 дней на подготовку\n"
             "• Соответствие Стратегии 2030",
-            parse_mode=='HTML'
+            parse_mode='HTML'
         )
         await query.edit_message_text(
             help_text,
