@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ==================== TELEGRAM ====================
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8097523464:AAHoovPAanUbRwJR0wNXUdjcwPBoRvvnTKQ")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "-1002752798613")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "ХХХХХХХ")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "ХХХХХХХХ")
 
 # Администраторы (список ID пользователей, которые могут запускать парсер)
 # Добавь свой личный ID, чтобы тестировать бота
@@ -59,4 +59,5 @@ MGTU_DIRECTIONS = [
 ]
 
 # ==================== ЛОГИРОВАНИЕ ====================
+
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")  # INFO, DEBUG, WARNING, ERROR
