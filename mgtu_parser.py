@@ -13,7 +13,6 @@ import csv
 import os
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
-from bs4 import BeautifulSoup
 
 # ==================== КОНФИГУРАЦИЯ ====================
 # 🔑 ТОКЕНЫ ЧИТАЕМ ИЗ ПЕРЕМЕННЫХ ОКРУЖЕНИЯ (настраиваются в панели BotHost)
