@@ -190,8 +190,10 @@ async def send_long_message(bot, chat_id: int, text: str):
 
 # ==================== ЗАПУСК БОТА (POLLING) ====================
 
+import asyncio  # <-- добавь в импорты вверху файла, если нет
+
 def main():
-    """Запуск бота в режиме POLLING"""
+    """Запуск бота в режиме POLLING с защитой от падения"""
     
     storage.init_db()
     logger.info("✅ База данных инициализирована")
@@ -204,11 +206,30 @@ def main():
     
     logger.info("🚀 Запуск бота в режиме POLLING...")
     
-    # ✅ POLLING: бот сам опрашивает Telegram, не нужен вебхук!
-    application.run_polling(
-        allowed_updates=Update.ALL_TYPES,
-        drop_pending_updates=True
-    )
-
-if __name__ == "__main__":
-    main()
+    # === ЗАЩИТА ОТ ПАДЕНИЯ ===
+    async def keep_alive():
+        """Периодический «пульс» в логи, чтобы хостинг не убивал процесс"""
+        while True:
+            logger.info("💓 Бот жив, polling active...")
+            await asyncio.sleep(30)
+    
+    async def run_with_keepalive():
+        # Запускаем polling и keep_alive параллельно
+        polling_task = asyncio.create_task(application.start_polling(
+            allowed_updates=Update.ALL_TYPES,
+            drop_pending_updates=True
+        ))
+        keepalive_task = asyncio.create_task(keep_alive())
+        
+        # Ждём завершения polling (оно не завершится, пока не упадет)
+        await polling_task
+        keepalive_task.cancel()
+    
+    try:
+        # Запускаем асинхронный цикл
+        asyncio.run(run_with_keepalive())
+    except KeyboardInterrupt:
+        logger.info("🛑 Остановка по сигналу")
+    except Exception as e:
+        logger.error(f"💥 Критическая ошибка: {e}", exc_info=True)
+        raise
