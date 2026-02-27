@@ -131,7 +131,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 message = parser_core.format_telegram_message(new_grants)
                 
                 # Отправляем сообщение (разбиваем если длинное)
-                await send_long_message(query.message.chat_id, message)
+                await send_long_message(query.message.chat_id, message, context.bot)
                 
                 # Генерируем отчеты
                 parser_core.save_csv_report(new_grants)
@@ -244,38 +244,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
 
-async def send_long_message(chat_id: int, text: str):
-    """Отправка длинного сообщения (разбивка на части)"""
-    max_length = 4000
-    parts = []
-    
-    if len(text) <= max_length:
-        parts = [text]
-    else:
-        # Разбиваем по разделителям
-        current_part = ""
-        for line in text.split('\n'):
-            if len(current_part) + len(line) + 1 > max_length:
-                parts.append(current_part)
-                current_part = line
-            else:
-                current_part += '\n' + line if current_part else line
-        if current_part:
-            parts.append(current_part)
-    
-    for i, part in enumerate(parts):
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=part,
-            parse_mode='HTML'
-        )
-
-# ─────────────────────────────────────────────────────────────────
-# ВАЖНО: Эта функция нужна для отправки в send_long_message
-# ─────────────────────────────────────────────────────────────────
-context_holder = {}
-
-async def send_long_message_fixed(chat_id: int, text: str, bot):
+async def send_long_message(chat_id: int, text: str, bot):
     """Отправка длинного сообщения (разбивка на части)"""
     max_length = 4000
     parts = []
@@ -315,23 +284,18 @@ def main():
     # Регистрация обработчиков
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("check", start))  # Алиас
-    application.add_handler(CommandHandler("stats", start))  # Алиас
+    application.add_handler(CommandHandler("check", start))
+    application.add_handler(CommandHandler("stats", start))
     application.add_handler(CallbackQueryHandler(button_handler))
     
     # Запуск бота (для BotHost через вебхук)
-    # Для локального тестирования можно использовать polling
     logger.info("🚀 Запуск бота...")
-    
-    # Для BotHost используем webhook
-    # В панели BotHost нужно указать URL вебхука:
-    # https://your-username.pythonanywhere.com/
     
     application.run_webhook(
         listen="0.0.0.0",
         port=int(os.environ.get("PORT", 8080)),
         url_path=config.TELEGRAM_BOT_TOKEN,
-        webhook_url=None  # BotHost сам настроит
+        webhook_url=None
     )
 
 if __name__ == "__main__":
