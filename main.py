@@ -43,7 +43,7 @@ def get_back_keyboard():
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработка команды /start"""
     user_id = update.effective_user.id
-    
+    print(f"🔍 DEBUG main.py: Попытка входа! user_id={user_id} (type={type(user_id)}), ADMIN_IDS={config.ADMIN_IDS}")
     if user_id not in config.ADMIN_IDS:
         await update.message.reply_text(
             "❌ <b>Доступ запрещен</b>",
