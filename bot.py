@@ -1,10 +1,19 @@
-# bot.py - ПРОСТОЙ БОТ ДЛЯ ЗАПУСКА ПАРСЕРА
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+БОТ ДЛЯ ЗАПУСКА ПАРСЕРА ГРАНТОВ ИЗ TELEGRAM
+Работает на BotHost через polling
+"""
 import os
+import sys
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-# Импортируем функцию запуска из твоего парсера
+# Добавляем текущую папку в путь поиска модулей
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+# Импортируем функцию запуска из парсера
 from mgtu_parser import main as run_parser
 
 # Настройки из переменных окружения (BotHost)
@@ -32,7 +41,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("⏳ <b>Запуск парсера грантов...</b>", parse_mode='HTML')
     
     try:
-        # Запускаем твой парсер
+        # Запускаем парсер
         run_parser()
         await update.message.reply_text("✅ <b>Готово!</b> Проверь чат.", parse_mode='HTML')
     except Exception as e:
