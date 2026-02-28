@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия (без input, без bs4)"""
+"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия"""
 import requests, json, hashlib, time, csv, os
 from datetime import datetime
 from typing import List, Dict, Any
 
 # Настройки из переменных окружения
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "XXXXX")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "XXXXX")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8097523464:AAHoovPAanUbRwJR0wNXUdjcwPBoRvvnTKQ")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "-1002752798613")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SENT_GRANTS_FILE = os.path.join(SCRIPT_DIR, 'sent_grants.json')
 CSV_BACKUP_FILE = os.path.join(SCRIPT_DIR, 'гранты_МГТУ.csv')
