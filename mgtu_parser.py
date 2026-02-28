@@ -6,8 +6,8 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 # Настройки из переменных окружения BotHost
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8097523464:AAHoovPAanUbRwJR0wNXUdjcwPBoRvvnTKQ")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "-1002752798613")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SENT_GRANTS_FILE = os.path.join(SCRIPT_DIR, 'sent_grants.json')
 CSV_BACKUP_FILE = os.path.join(SCRIPT_DIR, 'гранты_МГТУ.csv')
