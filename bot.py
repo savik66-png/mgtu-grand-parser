@@ -29,7 +29,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"❌ Ошибка: {str(e)[:150]}", parse_mode='HTML')
 
 def main():
-    logger.info(f"🚀 Бот запущен. Token: {TOKEN[:10] if TOKEN else 'NONE'}...")
+    logger.info(f"🚀 Бот запущен.")
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("check", start))
