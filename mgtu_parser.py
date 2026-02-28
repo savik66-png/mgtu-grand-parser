@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия (минимальная)"""
+"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия (минимальная, проверенная)"""
 import requests, json, hashlib, time, csv, os
 from datetime import datetime
 from typing import List, Dict, Any
