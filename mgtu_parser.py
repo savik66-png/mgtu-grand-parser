@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия"""
+"""ПАРСЕР ГРАНТОВ ДЛЯ МГТУ — BotHost версия (минимальная)"""
 import requests, json, hashlib, time, csv, os
 from datetime import datetime
 from typing import List, Dict, Any
 
-# Настройки из переменных окружения
+# Настройки из переменных окружения BotHost
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8097523464:AAHoovPAanUbRwJR0wNXUdjcwPBoRvvnTKQ")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "-1002752798613")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +13,7 @@ SENT_GRANTS_FILE = os.path.join(SCRIPT_DIR, 'sent_grants.json')
 CSV_BACKUP_FILE = os.path.join(SCRIPT_DIR, 'гранты_МГТУ.csv')
 MIN_ANNUAL_AMOUNT = 5_000_000
 
+# Статические гранты (упрощённый список)
 STATIC_GRANTS = [
     {"title": "Электромеханические беспилотные автомобили", "organizer": "Минобрнауки", "amount": "от 15 млн руб./год", "annual_amount_min": 15000000, "description": "Разработка приборов", "direction": "Транспорт", "details_url": "https://minobrnauki.gov.ru/", "rating": 4},
     {"title": "Сверхпроизводительные вычисления", "organizer": "Минобрнауки, РФТР", "amount": "20-50 млн руб./год", "annual_amount_min": 20000000, "description": "Гибридные сопроцессоры", "direction": "Суперкомпьютеры", "details_url": "https://minobrnauki.gov.ru/", "rating": 4},
@@ -131,7 +132,7 @@ def main():
     log_message(f"✅ Отправлено {len(new_grants)} грантов", "SUCCESS")
     return success
 
-# 🔥 ЗАПУСК — БЕЗ input(), БЕЗ МЕНЮ
+# 🔥 ЗАПУСК — БЕЗ input(), БЕЗ МЕНЮ, БЕЗ ОШИБОК
 if __name__ == "__main__":
     log_message("=== ЗАПУСК ПАРСЕРА (BotHost) ===", "INFO")
     main()
