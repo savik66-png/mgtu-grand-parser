@@ -1,0 +1,25 @@
+# База данных и история
+sent_grants.json
+settings.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Переменные окружения
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
