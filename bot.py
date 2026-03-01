@@ -55,7 +55,12 @@ def is_admin(update: Update) -> bool:
 
 # ─── Команды ──────────────────────────────────────────────────────────────────
 
+async def debug_all(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info(f"📨 Обновление от {update.effective_user.id if update.effective_user else 'неизвестно'}: {update.message.text if update.message else update}")
+
+
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info(f"/start от {update.effective_user.id}, ADMIN_ID={ADMIN_ID}")
     if not is_admin(update):
         await update.message.reply_text("❌ Доступ запрещён.")
         return
@@ -170,6 +175,8 @@ def main():
 
     app = Application.builder().token(TOKEN).build()
 
+    from telegram.ext import MessageHandler, filters
+    app.add_handler(MessageHandler(filters.ALL, debug_all), group=1)
     app.add_handler(CommandHandler("start",     cmd_start))
     app.add_handler(CommandHandler("status",    cmd_status))
     app.add_handler(CommandHandler("check",     cmd_check))
