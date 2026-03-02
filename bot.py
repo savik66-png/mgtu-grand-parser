@@ -43,7 +43,8 @@ KEYBOARD = ReplyKeyboardMarkup(
 
 
 def is_admin(update: Update) -> bool:
-    return update.effective_user and update.effective_user.id == ADMIN_ID
+    from config import ALLOWED_USERS
+    return update.effective_user and update.effective_user.id in ALLOWED_USERS
 
 
 async def send_welcome(update: Update):
